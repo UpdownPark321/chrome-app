@@ -1,3 +1,3 @@
 # Chrome App Update
 
-momentum
+momentum app
