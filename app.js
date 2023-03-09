@@ -18,7 +18,7 @@ function paintGreeting(username){
     greeting.classList.remove(HIDDEN_CLASSNAME);
 }
 
-//first step - Check localStorage 
+//*browser first step - Check localStorage 
 const savedUsername = localStorage.getItem(USERNAME_KEY);
 if(savedUsername === null){
     // show the form
