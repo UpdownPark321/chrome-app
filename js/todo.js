@@ -11,15 +11,17 @@ function saveToDos(){
 }
 
 function deleteToDo(event){
-    const li = event.target.parentElement;
-    li.remove();
-    // const li = event.composedPath()[1]; li.remove();
+    const li = event.target.parentElement;  // const li = event.composedPath()[1]; li.remove();
+    li.remove(); 
+    toDos = toDos.filter((todo) => todo.id !== parseInt(li.id));
+    saveToDos();
 }
 
 function paintToDo(newTodo){
     const li = document.createElement("li");
+    li.id = newTodo.id;
     const span = document.createElement("span");
-    span.innerText = newTodo;
+    span.innerText = newTodo.text; //object의 text.
     const button = document.createElement("button");
     button.innerText = "❌";
     button.addEventListener("click", deleteToDo);
@@ -32,8 +34,12 @@ function handleToDoSubmit(event){
     event.preventDefault();
     const newTodo = toDoInput.value;
     toDoInput.value = "";
-    toDos.push(newTodo); //toDo를 submit할 때마다 newToDo(새로운 입력)를 push함
-    paintToDo(newTodo); 
+    const newTodoObj = {
+        text: newTodo,
+        id: Date.now(), //id로 각각의 li item을 구별하기 위함.
+    };
+    toDos.push(newTodoObj); //toDo를 submit할 때마다 newToDo(새로운 입력)를 push함
+    paintToDo(newTodoObj); 
     saveToDos();
 }
 
@@ -43,7 +49,6 @@ const savedToDos = localStorage.getItem(TODOS_KEY);
 
 if(savedToDos!== null){
     const parsedToDos = JSON.parse(savedToDos);
-    console.log(parsedToDos);
     toDos = parsedToDos;  //toDos가 빈값으로 시작하므로, 이 코드를 넣음으로써 array에 이전의 toDo들을 넣게 함.
-    parsedToDos.forEach(paintToDo); 
+    parsedToDos.forEach(paintToDo); //forEach함수가 parsedToDos배열의 요소마다 paintToDo를 실행 
 }
